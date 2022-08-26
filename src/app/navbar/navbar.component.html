@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-semi-dark p-2">
+<nav class="navbar navbar-expand-lg navbar-dark bg-semi-dark p-3">
   <div class="container">
     <a class="navbar-brand fw-semibold" routerLink="/">RequisiçõesApp</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -11,7 +11,7 @@
       <div class="links w-100" *ngIf="usuarioLogado | async">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active underline" aria-current="page" routerLink="/departamento">Departamentos</a>
+            <a class="nav-link active underline" aria-current="page" routerLink="/departamentos">Departamentos</a>
           </li>
           <div class="d-sm-block ms-auto">
             <a class="btn btn-primary px-5" (click)="sair()">Sair</a>

@@ -7,13 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFirestoreModule } from '@Angular/fire/compat/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './auth/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './auth/services/authentication.service';
 import { PainelComponent } from './painel/painel.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { DepartamentoModule } from './departamentos/departamento.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     NgbModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+
+    DepartamentoModule
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]
