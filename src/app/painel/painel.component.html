@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 col-lg-8 mx-auto">
+      <div class="card p-3 bg-semi-dark text-bg-dark">
+        <div class="card-body p-4">
+          <h1 class="card-title mb-4">Olá <span class="text-primary">{{ emailUsuario }}</span>! :)</h1>
+          <h4 class="card-text mb-4">Seja bem-vindo(a) ao Sistema de Requisições da Academia do Programador.</h4>
+          <form class="col-md-8">
+            <div class="d-flex">
+              <button class="btn btn-primary">
+                Gerenciar Requisições
+              </button>
+              <button class="btn btn-outline-primary ms-2" (click)="sair()" type="button">
+                <i class="pi pi-sign-out"></i>
+                Sair
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
