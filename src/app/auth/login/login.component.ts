@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, EmailValidator, FormBuilder, FormControl, FormControlName, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
     )
   { }
 
@@ -49,11 +51,14 @@ export class LoginComponent implements OnInit {
     const senha = this.senha?.value;
     try {
       const resposta = await this.authService.login(email, senha);
-      if(resposta?.user)
+      if(resposta?.user) {
         this.router.navigate(["painel"]);
+        this.toastr.success("Bem-vindo(a)!", "Login efetuado com sucesso!");
+      }
 
     } catch (error) {
       console.log(error);
+      this.toastr.error("Algo deu errado", "Problema no login");
     }
   }
 

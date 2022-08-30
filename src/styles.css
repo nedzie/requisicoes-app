@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
+@import '~ngx-toastr/toastr.css';
 
 body {
   background-color: #212529;
@@ -37,6 +38,19 @@ body {
 
 .text-primary {
   color: #2c599D !important;
+}
+
+.text-warning {
+  color: #bb9421 !important;
+}
+
+.btn-outline-warning {
+  border-color: #bb9421 !important;
+}
+
+.btn-outline-warning:hover {
+  background-color: #bb9421 !important;
+  color: white !important;
 }
 
 .bg-semi-dark {
@@ -106,11 +120,11 @@ transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 
 .meu-input {
   border: 0 !important;
-  border-bottom: 1px solid #c77e43 !important;
+  border-bottom: 1px solid #8f5b31 !important;
   border-radius: 0;
 }
 
 .meu-input:focus {
   box-shadow: none !important;
-  border-bottom: 1px solid #43c760 !important;
+  border-bottom: 1px solid #39a851 !important;
 }

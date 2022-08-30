@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Equipamento } from '../models/equipamento.model';
 
@@ -9,7 +10,7 @@ import { Equipamento } from '../models/equipamento.model';
 export class EquipamentoService {
   private registros: AngularFirestoreCollection<Equipamento>
 
-  constructor(private fireStore: AngularFirestore) {
+  constructor(private fireStore: AngularFirestore, private toastr: ToastrService) {
     this.registros = this.fireStore.collection<Equipamento>("equipamentos");
   }
 
@@ -29,6 +30,7 @@ export class EquipamentoService {
   }
 
   public excluir(registro: Equipamento): Promise<void> {
+    this.toastr.success("pqp");
     return this.registros.doc(registro.id).delete();
   }
 
