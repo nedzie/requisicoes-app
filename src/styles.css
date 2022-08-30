@@ -53,6 +53,23 @@ body {
   color: white !important;
 }
 
+.btn-outline-warning:focus {
+  box-shadow: none !important;
+}
+
+.btn-outline-danger {
+  border-color: #b32b39 !important;
+}
+
+.btn-outline-danger:hover {
+  background-color: #b32b39 !important;
+  color: white !important;
+}
+
+.btn-outline-danger:focus {
+  box-shadow: none !important;
+}
+
 .bg-semi-dark {
   background-color: #272b30 !important;
 }

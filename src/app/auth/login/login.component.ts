@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AbstractControl, EmailValidator, FormBuilder, FormControl, FormControlName, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -20,8 +20,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private toastr: ToastrService
-    )
-  { }
+    ) { }
 
   ngOnInit(): void { /* Isso aqui roda na hora certa */
     this.form = this.formBuilder.group({
@@ -57,7 +56,6 @@ export class LoginComponent implements OnInit {
       }
 
     } catch (error) {
-      console.log(error);
       this.toastr.error("Algo deu errado", "Problema no login");
     }
   }
@@ -68,6 +66,7 @@ export class LoginComponent implements OnInit {
       .then(resultado => {
         if(resultado === "enviar")
           this.authService.resetarSenha(this.emailRecuperacao?.value);
+          this.toastr.info("Cheque sua caixa de emails.", "Um email foi enviado!");
       })
       .catch(() => {
         this.formRecuperacao.reset();

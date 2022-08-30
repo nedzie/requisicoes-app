@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Departamento } from './models/departamento.model';
 import { DepartamentoService } from './services/departamento.service';
@@ -17,7 +18,8 @@ export class DepartamentoComponent implements OnInit {
   constructor(
     private departamentoService: DepartamentoService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -55,19 +57,23 @@ export class DepartamentoComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if(!departamento)
+      if(!departamento) {
         await this.departamentoService.inserir(this.form.value);
-      else
+        this.toastr.success("Departamento cadastrado com sucesso!", "Cadastro de departamento");
+      }
+      else {
         await this.departamentoService.editar(this.form.value);
+        this.toastr.success("Departamento editado com sucesso!", "Edição de departamento");
+      }
 
-      console.log("O departamento foi salvo com sucesso!");
-
-    } catch (_error) {
+    } catch (error) {
+      if(error != "fechar")
+        this.toastr.error("Houve um erro na solicitação");
     }
   }
 
   public excluir(departamento: Departamento) {
     this.departamentoService.excluir(departamento);
+    this.toastr.warning(`'${departamento.nome}' excluído`, "Exclusão de departamento");
   }
-
 }
