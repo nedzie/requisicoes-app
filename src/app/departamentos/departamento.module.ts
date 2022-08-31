@@ -6,6 +6,7 @@ import { DepartamentoComponent } from './departamento.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NgxMaskModule } from 'ngx-mask';
     NgbModule,
     ReactiveFormsModule,
     DepartamentoRoutingModule,
-    NgxMaskModule.forChild()
+    NgxMaskModule.forChild(),
+    SharedModule
   ]
 })
 export class DepartamentoModule { }

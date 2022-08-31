@@ -26,6 +26,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 /* Mask */
 import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NgxMaskModule } from 'ngx-mask';
     AngularFirestoreModule,
     DepartamentoModule,
     EquipamentoModule,
+    SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgxMaskModule.forRoot({
