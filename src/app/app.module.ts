@@ -24,6 +24,9 @@ import { EquipamentoModule } from './equipamentos/equipamento.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+/* Mask */
+import { NgxMaskModule } from 'ngx-mask';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +45,10 @@ import { ToastrModule } from 'ngx-toastr';
     DepartamentoModule,
     EquipamentoModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxMaskModule.forRoot({
+      dropSpecialCharacters: true
+    })
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]
