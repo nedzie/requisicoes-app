@@ -78,7 +78,7 @@ export class EquipamentoComponent implements OnInit {
       }
 
     } catch (error) {
-      if(error != "fechar")
+      if(error != "fechar" && error != "1" && error != "0")
         this.toastr.error("Houve um erro na solicitação");
     }
   }
