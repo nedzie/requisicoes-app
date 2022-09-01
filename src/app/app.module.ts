@@ -17,8 +17,6 @@ import { LoginComponent } from './auth/login/login.component';
 /* CRUD */
 import { PainelComponent } from './painel/painel.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { DepartamentoModule } from './departamentos/departamento.module';
-import { EquipamentoModule } from './equipamentos/equipamento.module';
 
 /* Toastr */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,7 +30,6 @@ import { SharedModule } from './shared/shared.module';
 import ptBr from "@angular/common/locales/pt";
 import { registerLocaleData } from '@angular/common';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
-import { FuncionarioModule } from './funcionarios/funcionario.module';
 
 registerLocaleData(ptBr);
 
@@ -51,9 +48,6 @@ registerLocaleData(ptBr);
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    DepartamentoModule,
-    EquipamentoModule,
-    FuncionarioModule,
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
