@@ -6,15 +6,15 @@
 
           <h1 class="card-title">Sistema de Requisições</h1>
 
-          <form class="col-md-8 mx-auto" [formGroup]="form" (ngSubmit)="login()">
-            <div class="form-group">
+          <form class="col-md-8 mx-auto mt-5" [formGroup]="form" (ngSubmit)="login()">
+            <div class="form-group colorful-gradient">
               <label class="form-label" for="email">Email</label>
-              <input class="form-control bg-dark text-bg-dark meu-input" type="email" placeholder="nome@exemplo.com"
+              <input class="form-control bg-dark text-bg-dark reset-input" type="email" placeholder="nome@exemplo.com"
                 formControlName="email">
             </div>
-            <div class="form-group my-3">
+            <div class="form-group my-3 colorful-gradient">
               <label class="form-label" for="password">Senha</label>
-              <input class="form-control bg-dark text-bg-dark meu-input" type="password" placeholder="••••••••••"
+              <input class="form-control bg-dark text-bg-dark reset-input" type="password" placeholder="••••••••••"
                 formControlName="senha">
             </div>
 
@@ -42,12 +42,12 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="formRecuperacao" (ngSubmit)="modal.close('enviar')">
-        <div class="alert alert-warning" role="alert">
+        <div class="alert alert-info" role="alert">
           Enviaremos um email para o endereço informado com as intruções de recuperação.
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 colorful-gradient">
           <label class="form-label" for="emaiRecuperacao">Endereço de Email</label>
-          <input class="form-control bg-dark text-bg-dark meu-input" type="email" formControlName="emaiRecuperacao"
+          <input class="form-control bg-dark text-bg-dark reset-input" type="email" formControlName="emaiRecuperacao"
             placeholder="nome@exemplo.com">
           <!-- <div class="invalid-tooltip" *ngIf="emailRecuperacao.invalid">
           <span *ngIf="emailRecuperacao.errors['required']">O email é obrigatório!</span>

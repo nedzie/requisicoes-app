@@ -49,14 +49,14 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 colorful-gradient">
           <label class="form-label" for="nome">Nome</label>
-          <input class="form-control bg-dark text-bg-dark meu-input" type="text" formControlName="nome"
+          <input class="form-control bg-dark text-bg-dark reset-input" type="text" formControlName="nome"
             placeholder="Ex.: Administração...">
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 colorful-gradient">
           <label class="form-label" for="telefone">Telefone</label>
-          <input class="form-control bg-dark text-bg-dark meu-input" type="text" formControlName="telefone"
+          <input class="form-control bg-dark text-bg-dark reset-input" type="text" formControlName="telefone"
             mask="(00)00000-0009">
         </div>
         <div class=" modal-footer">

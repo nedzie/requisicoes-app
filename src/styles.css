@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
 @import '~ngx-toastr/toastr.css';
 
+:root {
+  --input-background: rgba(57, 63, 84, 0.8);
+}
+
 body {
   background-color: #212529;
   font-family: 'Quicksand', sans-serif;
@@ -94,11 +98,11 @@ transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
-.underline:hover::before{
-  left: 0;
-  right: auto;
-  width: 100%;
-}
+  .underline:hover::before {
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
 }
 
 .efeito-logo {
@@ -135,13 +139,44 @@ transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   height: 100%;
 }
 
-.meu-input {
+/* ------------------------INPUT------------------------ */
+
+.reset-input {
   border: 0 !important;
-  border-bottom: 1px solid #8f5b31 !important;
-  border-radius: 0;
+  border-bottom: 1px solid transparent !important;
+  border-radius: 2px;
 }
 
-.meu-input:focus {
+.reset-input:focus {
   box-shadow: none !important;
-  border-bottom: 1px solid #39a851 !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+.colorful-gradient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.colorful-gradient::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 999;
+  height: 2px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background-position: 0% 0%;
+  background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+  background-size: 500% auto;
+  animation: gradient 3s linear infinite;
+}
+
+@keyframes gradient {
+  0%{background-position:0 0}
+  100%{background-position:100% 0}
 }
