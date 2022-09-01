@@ -31,7 +31,7 @@ export class EquipamentoComponent implements OnInit {
       nome: new FormControl(""),
       precoAquisicao: new FormControl(""),
       dataFabricacao: new FormControl("")
-    })
+    });
   }
 
   get tituloModal(): string {

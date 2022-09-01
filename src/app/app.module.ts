@@ -32,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
 import ptBr from "@angular/common/locales/pt";
 import { registerLocaleData } from '@angular/common';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
+import { FuncionarioModule } from './funcionarios/funcionario.module';
 
 registerLocaleData(ptBr);
 
@@ -52,6 +53,7 @@ registerLocaleData(ptBr);
     AngularFirestoreModule,
     DepartamentoModule,
     EquipamentoModule,
+    FuncionarioModule,
     SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),

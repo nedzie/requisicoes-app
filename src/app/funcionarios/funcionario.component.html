@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md-10 col-lg-9 mx-auto">
       <div class="text-center text-md-start">
-        <h1 class="fw-bold text-bg-dark">Departamentos</h1>
+        <h1 class="fw-bold text-bg-dark">Funcionários</h1>
       </div>
 
       <div class="d-grid gap-2 d-md-block mt-3">
@@ -19,19 +19,23 @@
           <thead class="thead-light text-center">
             <tr>
               <th>Nome</th>
-              <th>Telefone</th>
+              <th>E-mail</th>
+              <th>Função</th>
+              <th>Departamento</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr *ngFor="let departamento of (departamentos$ | async)">
-              <td>{{ departamento.nome }}</td>
-              <td>{{ departamento.telefone | phone }}</td>
+            <tr *ngFor="let funcionario of (funcionarios$ | async)">
+              <td>{{ funcionario.nome }}</td>
+              <td>{{ funcionario.email }}</td>
+              <td>{{ funcionario.funcao }}</td>
+              <td>{{ funcionario.departamento?.nome }}</td>
               <td class="d-grid d-md-block">
                 <button class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto" type="button"><i class="pi pi-pencil"
-                    (click)="gravar(modal, departamento)"></i></button>
+                    (click)="gravar(modal, funcionario)"></i></button>
                 <button class="btn btn-outline-danger" type="button"><i class="pi pi-trash"
-                    (click)="excluir(departamento)"></i></button>
+                    (click)="excluir(funcionario)"></i></button>
               </td>
             </tr>
           </tbody>
@@ -44,7 +48,7 @@
 <ng-template #modal let-modal>
   <div class="bg-medium text-bg-dark">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title"> {{ tituloModal }} de Departamento</h4>
+      <h4 class="modal-title" id="modal-basic-title"> {{ tituloModal }} de Funcionário</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
     </div>
     <div class="modal-body">
@@ -52,12 +56,25 @@
         <div class="form-group mb-3 colorful-gradient">
           <label class="form-label" for="nome">Nome</label>
           <input class="form-control bg-dark text-bg-dark reset-input" type="text" formControlName="nome"
-            placeholder="Ex.: Administração...">
+            placeholder="Ex.: John Doe...">
         </div>
         <div class="form-group mb-3 colorful-gradient">
-          <label class="form-label" for="telefone">Telefone</label>
-          <input class="form-control bg-dark text-bg-dark reset-input" type="text" formControlName="telefone"
-            mask="(00)00000-0009" placeholder="(00)X0000-0000">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-control bg-dark text-bg-dark reset-input" type="email" formControlName="email"
+            placeholder="Ex.: nome@exemplo.com...">
+        </div>
+        <div class="form-group mb-3 colorful-gradient">
+          <label class="form-label" for="funcao">Função</label>
+          <input class="form-control bg-dark text-bg-dark reset-input" type="text" formControlName="funcao"
+            placeholder="Ex.: Desenvolvedor...">
+        </div>
+        <div class="form-group mb-3 colorful-gradient">
+          <label class="form-label" for="departamentoId">Departamento</label>
+          <ng-select formControlName="departamentoId" [clearable]="false" [searchable]="false">
+            <ng-option *ngFor="let departamento of ( departamentos$ | async )" [value]="departamento.id">
+              {{ departamento.nome }}
+            </ng-option>
+          </ng-select>
         </div>
         <div class=" modal-footer">
           <button class="btn btn-outline-warning col-md-3" type="button"
