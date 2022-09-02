@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Funcionario } from './models/funcionario.model';
 import { FuncionarioService } from './services/funcionario.service';
@@ -31,10 +31,10 @@ export class FuncionarioComponent implements OnInit {
 
     this.form = this.fb.group({
       id: new FormControl(""),
-      nome: new FormControl(""),
-      email: new FormControl(""),
-      funcao: new FormControl(""),
-      departamentoId: new FormControl(""),
+      nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      funcao: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      departamentoId: new FormControl("", [Validators.required]),
       departamento: new FormControl("")
     });
   }
@@ -43,24 +43,24 @@ export class FuncionarioComponent implements OnInit {
     return this.id?.value ? "Atualização" : "Cadastro";
   }
 
-  get id() {
+  get id(): AbstractControl | null {
     return this.form.get("id");
   }
 
-  get nome() {
+  get nome(): AbstractControl | null {
     return this.form.get("nome");
   }
 
-  get email() {
+  get email(): AbstractControl | null {
     return this.form.get("email");
   }
 
-  get funcao() {
+  get funcao(): AbstractControl | null {
     return this.form.get("funcao");
   }
 
-  get departamentoId() {
-    return this.form.get("departamentoI");
+  get departamentoId(): AbstractControl | null {
+    return this.form.get("departamentoId");
   }
 
   public async gravar(modal: TemplateRef<any>, funcionario?: Funcionario) {
@@ -81,14 +81,16 @@ export class FuncionarioComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if(!funcionario) {
-        await this.funcionarioService.inserir(this.form.value);
-        this.toastr.success("funcionário cadastrado com sucesso!", "Cadastro de funcionário");
+      if(this.form.dirty && this.form.valid) {
+        if(!funcionario)
+          await this.funcionarioService.inserir(this.form.value);
+        else
+          await this.funcionarioService.editar(this.form.value);
+
+        this.toastr.success("funcionário cadastrado com sucesso!", `${this.id?.value ? "Atualização" : "Cadastro"} de funcionário`);
       }
-      else {
-        await this.funcionarioService.editar(this.form.value);
-        this.toastr.success("funcionário editado com sucesso!", "Edição de funcionário");
-      }
+      else
+        this.toastr.error("Houve algo de errado com as informações, tente novamente!", "Cadastro de funcionário");
 
     } catch (error) {
       if(error != "fechar" && error != "1" && error != "0")

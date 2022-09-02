@@ -33,6 +33,8 @@ import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 
 registerLocaleData(ptBr);
 
+/* Casca vazia */
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
 @import '~ngx-toastr/toastr.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 :root {
   --input-background: rgba(57, 63, 84, 0.8);
@@ -10,7 +11,11 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
-/* OVERRIDES */
+.ng-select.custom .ng-select-container {
+  background: #272b30;
+}
+
+/* OVERRIDES BOOTSTRAP */
 
 .btn-primary {
   background-color: #2c599D !important;
@@ -83,18 +88,18 @@ body {
 }
 
 .underline{
-position: relative;
+  position: relative;
 }
 
 .underline::before{
-content: '';
-position: absolute;
-bottom: 0;
-right: 0;
-width: 0;
-height: 2px;
-background-color: #2c599D;
-transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: #2c599D;
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -139,18 +144,7 @@ transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   height: 100%;
 }
 
-/* ------------------------INPUT------------------------ */
-
-.reset-input {
-  border: 0 !important;
-  border-bottom: 1px solid transparent !important;
-  border-radius: 2px;
-}
-
-.reset-input:focus {
-  box-shadow: none !important;
-  border-bottom: 1px solid transparent !important;
-}
+/* ------------------------INPUT------------------------
 
 .colorful-gradient {
   position: relative;
@@ -179,4 +173,4 @@ transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 @keyframes gradient {
   0%{background-position:0 0}
   100%{background-position:100% 0}
-}
+} */

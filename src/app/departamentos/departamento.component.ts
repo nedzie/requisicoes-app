@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -36,15 +36,15 @@ export class DepartamentoComponent implements OnInit {
     return this.id?.value ? "Atualização" : "Cadastro";
   }
 
-  get id() {
+  get id(): AbstractControl | null {
     return this.form.get("id");
   }
 
-  get nome() {
+  get nome(): AbstractControl | null {
     return this.form.get("nome");
   }
 
-  get telefone() {
+  get telefone(): AbstractControl | null {
     return this.form.get("telefone");
   }
 

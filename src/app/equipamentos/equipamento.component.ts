@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -38,23 +38,23 @@ export class EquipamentoComponent implements OnInit {
     return this.id?.value ? "Atualização" : "Cadastro";
   }
 
-  get id() {
+  get id(): AbstractControl | null {
     return this.form.get("id");
   }
 
-  get numeroSerie() {
+  get numeroSerie(): AbstractControl | null {
     return this.form.get("numeroSerie");
   }
 
-  get nome() {
+  get nome(): AbstractControl | null {
     return this.form.get("nome");
   }
 
-  get precoAquisicao() {
+  get precoAquisicao(): AbstractControl | null {
     return this.form.get("precoAquisicao");
   }
 
-  get dataFabricacao() {
+  get dataFabricacao(): AbstractControl | null {
     return this.form.get("dataFabricacao");
   }
 
