@@ -53,31 +53,48 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
-        <div class="form-group mb-3">
+        <div class="form-group position-relative mb-3">
           <label class="form-label" for="numeroSerie">Nº de Série</label>
           <input class="form-control bg-dark text-bg-dark" type="text" formControlName="numeroSerie"
-            placeholder="xxxx-xxxx" [attr.disabled]="this.id?.value ? '' : null">
+            placeholder="xxxx-xxxx" [ngClass]="(numeroSerie?.touched && numeroSerie?.invalid) ? 'is-invalid' : ''"
+            [attr.disabled]="this.id?.value ? '' : null">
+          <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+            <span *ngIf="numeroSerie?.errors?.['required']">É necessário um nº de série.</span>
+            <span *ngIf="numeroSerie?.errors?.['minlength']">Mínimo de 8 caracteres.</span>
+          </div>
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group position-relative mb-3">
           <label class="form-label" for="nome">Nome</label>
           <input class="form-control bg-dark text-bg-dark" type="text" formControlName="nome"
-            placeholder="Ex.: Impressora...">
+            placeholder="Ex.: Impressora..." [ngClass]="(nome?.touched && nome?.invalid) ? 'is-invalid' : ''">
+          <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+            <span *ngIf="numeroSerie?.errors?.['required']">É necessário um nome.</span>
+            <span *ngIf="numeroSerie?.errors?.['minlength']">Mínimo de 3 caracteres.</span>
+          </div>
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group position-relative mb-3">
           <label class="form-label" for="precoAquisicao">Preço de Aquisição</label>
           <input class="form-control bg-dark text-bg-dark" type="text" formControlName="precoAquisicao"
             placeholder="Ex.: R$5,50..." step="0.01" currencyMask
-            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }">
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
+            [ngClass]="(precoAquisicao?.touched && precoAquisicao?.invalid) ? 'is-invalid' : ''">
+          <div class="invalid-tooltip" *ngIf="precoAquisicao?.touched && precoAquisicao?.invalid">
+            <span *ngIf="precoAquisicao?.errors?.['required']">É necessário um preço.</span>
+          </div>
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group position-relative mb-3">
           <label class="form-label" for="dataFabricacao">Data de Fabricação</label>
           <input class="form-control bg-dark text-bg-dark" type="date" formControlName="dataFabricacao"
-            placeholder="Ex.: 12/07/2018...">
+            placeholder="Ex.: 12/07/2018..."
+            [ngClass]="(dataFabricacao?.touched && dataFabricacao?.invalid) ? 'is-invalid' : ''">
+          <div class="invalid-tooltip" *ngIf="dataFabricacao?.touched && dataFabricacao?.invalid">
+            <span *ngIf="dataFabricacao?.errors?.['required']">É necessária uma data.</span>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-outline-warning col-md-3" type="button"
             (click)="modal.dismiss('fechar')">Cancelar</button>
-          <button class="btn btn-primary col-md-3" type="submit">Gravar</button>
+          <button class="btn btn-primary col-md-3" type="submit" [disabled]="this.form.invalid">Gravar</button>
         </div>
       </form>
     </div>

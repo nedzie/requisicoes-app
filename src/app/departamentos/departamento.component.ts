@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -27,13 +27,13 @@ export class DepartamentoComponent implements OnInit {
 
     this.form = this.fb.group({
       id: new FormControl(""),
-      nome: new FormControl(""),
-      telefone: new FormControl("")
+      nome: new FormControl("", [Validators.required, Validators.minLength(5)]),
+      telefone: new FormControl("", [Validators.required, Validators.minLength(10)])
     });
   }
 
   get tituloModal(): string {
-    return this.id?.value ? "Atualização" : "Cadastro";
+    return this.id?.value ? "Edição" : "Cadastro";
   }
 
   get id(): AbstractControl | null {
@@ -57,13 +57,13 @@ export class DepartamentoComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if(!departamento) {
-        await this.departamentoService.inserir(this.form.value);
-        this.toastr.success("Departamento cadastrado com sucesso!", "Cadastro de departamento");
-      }
-      else {
-        await this.departamentoService.editar(this.form.value);
-        this.toastr.success("Departamento editado com sucesso!", "Edição de departamento");
+      if(this.form.dirty && this.form.valid) {
+        if(!departamento)
+          await this.departamentoService.inserir(this.form.value);
+        else
+          await this.departamentoService.editar(this.form.value);
+
+        this.toastr.success("Informações registradas com sucesso!", `${this.tituloModal} de departamento`);
       }
 
     } catch (error) {

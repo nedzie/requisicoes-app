@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -27,15 +27,15 @@ export class EquipamentoComponent implements OnInit {
 
     this.form = this.fb.group({
       id: new FormControl(""),
-      numeroSerie: new FormControl(""),
-      nome: new FormControl(""),
-      precoAquisicao: new FormControl(""),
-      dataFabricacao: new FormControl("")
+      numeroSerie: new FormControl("", [Validators.required, Validators.minLength(8)]),
+      nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      precoAquisicao: new FormControl("", [Validators.required]),
+      dataFabricacao: new FormControl("", [Validators.required]) // Ver validação de data
     });
   }
 
   get tituloModal(): string {
-    return this.id?.value ? "Atualização" : "Cadastro";
+    return this.id?.value ? "Edição" : "Cadastro";
   }
 
   get id(): AbstractControl | null {
@@ -68,14 +68,16 @@ export class EquipamentoComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if(!equipamento) {
-        await this.equipamentoService.inserir(this.form.value);
-        this.toastr.success("Equipamento cadastrado com sucesso!", "Cadastro de equipamento");
+      if(this.form.dirty && this.form.valid) {
+        if(!equipamento)
+          await this.equipamentoService.inserir(this.form.value);
+        else
+          await this.equipamentoService.editar(this.form.value);
+
+        this.toastr.success("Informações registradas com sucesso!", `${this.tituloModal} de equipamento`);
       }
-      else {
-        await this.equipamentoService.editar(this.form.value);
-        this.toastr.success("Equipamento editado com sucesso!", "Edição de equipamentos");
-      }
+      else
+        this.toastr.error("Houve algo de errado com as informações, tente novamente!", `${this.tituloModal} de equipamento`);
 
     } catch (error) {
       if(error != "fechar" && error != "1" && error != "0")

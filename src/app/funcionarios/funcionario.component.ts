@@ -40,7 +40,7 @@ export class FuncionarioComponent implements OnInit {
   }
 
   get tituloModal(): string {
-    return this.id?.value ? "Atualização" : "Cadastro";
+    return this.id?.value ? "Edição" : "Cadastro";
   }
 
   get id(): AbstractControl | null {
@@ -87,10 +87,10 @@ export class FuncionarioComponent implements OnInit {
         else
           await this.funcionarioService.editar(this.form.value);
 
-        this.toastr.success("funcionário cadastrado com sucesso!", `${this.id?.value ? "Atualização" : "Cadastro"} de funcionário`);
+        this.toastr.success("Informações registradas com sucesso!", `${this.tituloModal}`);
       }
       else
-        this.toastr.error("Houve algo de errado com as informações, tente novamente!", "Cadastro de funcionário");
+        this.toastr.error("Houve algo de errado com as informações, tente novamente!", `${this.tituloModal}`);
 
     } catch (error) {
       if(error != "fechar" && error != "1" && error != "0")

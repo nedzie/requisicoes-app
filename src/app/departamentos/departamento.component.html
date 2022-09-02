@@ -49,20 +49,28 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
-        <div class="form-group mb-3">
+        <div class="form-group position-relative mb-3">
           <label class="form-label" for="nome">Nome</label>
           <input class="form-control bg-dark text-bg-dark" type="text" formControlName="nome"
-            placeholder="Ex.: Administração...">
+            placeholder="Ex.: Administração..." [ngClass]="(nome?.touched && nome?.invalid) ? 'is-invalid' : ''">
+          <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+            <span *ngIf="nome?.errors?.['required']">É necessário um nome.</span>
+            <span *ngIf="nome?.errors?.['minlength']">Mínimo de 5 caracteres.</span>
+          </div>
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group  position-relative mb-3">
           <label class="form-label" for="telefone">Telefone</label>
           <input class="form-control bg-dark text-bg-dark" type="text" formControlName="telefone" mask="(00)00000-0009"
-            placeholder="(00)X0000-0000">
+            placeholder="(00)X0000-0000" [ngClass]="(telefone?.touched && telefone?.invalid) ? 'is-invalid' : ''">
+          <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+            <span *ngIf="telefone?.errors?.['required']">É necessário um telefone.</span>
+            <span *ngIf="telefone?.errors?.['minlength']">Mínimo de 10 caracteres.</span>
+          </div>
         </div>
         <div class=" modal-footer">
           <button class="btn btn-outline-warning col-md-3" type="button"
             (click)="modal.dismiss('fechar')">Cancelar</button>
-          <button class="btn btn-primary col-md-3" type="submit">Gravar</button>
+          <button class="btn btn-primary col-md-3" type="submit" [disabled]="this.form.invalid">Gravar</button>
         </div>
       </form>
     </div>

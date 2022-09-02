@@ -13,6 +13,7 @@ body {
 
 .ng-select.custom .ng-select-container {
   background: #272b30;
+  color: white;
 }
 
 /* OVERRIDES BOOTSTRAP */
