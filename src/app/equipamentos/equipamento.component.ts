@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
+import { ValidarData } from '../shared/date-validator/date.validator';
 
 @Component({
   selector: 'app-equipamento',
@@ -30,7 +31,7 @@ export class EquipamentoComponent implements OnInit {
       numeroSerie: new FormControl("", [Validators.required, Validators.minLength(8)]),
       nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
       precoAquisicao: new FormControl("", [Validators.required]),
-      dataFabricacao: new FormControl("", [Validators.required]) // Ver validação de data
+      dataFabricacao: new FormControl("", [Validators.required, ValidarData()]) // Ver validação de data
     });
   }
 

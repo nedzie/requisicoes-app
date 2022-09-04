@@ -83,8 +83,9 @@
         <div class="form-group position-relative mb-3">
           <label class="form-label" for="departamentoId">Departamento</label>
           <ng-select class="custom" formControlName="departamentoId" [clearable]="false" [searchable]="false"
+            placeholder="Selecione um departamento"
             [ngClass]="(departamentoId?.touched && departamentoId?.invalid) ? 'is-invalid' : ''">
-            <ng-option *ngFor="let departamento of ( departamentos$ | async )" [value]="departamento.id">
+            <ng-option class="custom" *ngFor="let departamento of ( departamentos$ | async )" [value]="departamento.id">
               {{ departamento.nome }}
             </ng-option>
           </ng-select>

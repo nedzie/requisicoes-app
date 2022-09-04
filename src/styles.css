@@ -15,6 +15,18 @@ body {
   background: #272b30;
   color: white;
 }
+.ng-select.custom > div > div.single > div.toggle {
+  color: red !important;
+}
+
+.ng-option {
+  background: #272b30 !important;
+  color: rgb(219, 219, 219) !important;
+}
+
+.ng-option:hover {
+  color: white !important;
+}
 
 /* OVERRIDES BOOTSTRAP */
 
