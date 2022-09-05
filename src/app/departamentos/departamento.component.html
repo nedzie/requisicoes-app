@@ -60,8 +60,9 @@
         </div>
         <div class="form-group  position-relative mb-3">
           <label class="form-label" for="telefone">Telefone</label>
-          <input class="form-control bg-dark text-bg-dark" type="text" formControlName="telefone" mask="(00)00000-0009"
-            placeholder="(00)X0000-0000" [ngClass]="(telefone?.touched && telefone?.invalid) ? 'is-invalid' : ''">
+          <input class="form-control bg-dark text-bg-dark" type="text" formControlName="telefone"
+            mask="(00)0000-0000||(00)00000-0000" placeholder="(00)X0000-0000"
+            [ngClass]="(telefone?.touched && telefone?.invalid) ? 'is-invalid' : ''">
           <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
             <span *ngIf="telefone?.errors?.['required']">É necessário um telefone.</span>
             <span *ngIf="telefone?.errors?.['minlength']">Mínimo de 10 caracteres.</span>
