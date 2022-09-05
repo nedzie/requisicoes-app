@@ -14,7 +14,7 @@
   --btn-primary-claro: #2c599D;
   --btn-primary-outline-escuro: #193a6f;
   --btn-outline-danger: #b32b39;
-  --warning: #bb9421;
+  --warning: #caa127;
 }
 
 body {
@@ -108,7 +108,7 @@ body {
   background-color: var(--bg-medium-dark) !important;
 }
 
-.underline{
+.underline {
   position: relative;
 }
 
@@ -165,7 +165,7 @@ body {
   height: 100%;
 }
 
-/* ------------------------INPUT------------------------
+/* ------------------------INPUT------------------------*/
 
 .colorful-gradient {
   position: relative;
@@ -194,4 +194,4 @@ body {
 @keyframes gradient {
   0%{background-position:0 0}
   100%{background-position:100% 0}
-} */
+}
