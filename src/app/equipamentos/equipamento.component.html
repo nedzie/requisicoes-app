@@ -89,7 +89,7 @@
             [ngClass]="(dataFabricacao?.touched && dataFabricacao?.invalid) ? 'is-invalid' : ''">
           <div class="invalid-tooltip" *ngIf="dataFabricacao?.touched && dataFabricacao?.invalid">
             <span *ngIf="dataFabricacao?.errors?.['required']">É necessária uma data.</span>
-            <span *ngIf="dataFabricacao?.errors?.['invalidDate']">COEEEEE</span>
+            <span *ngIf="dataFabricacao?.errors?.['invalidDate']">Precisa ser inferior ou igual a hoje.</span>
           </div>
         </div>
         <div class="modal-footer">
