@@ -43,15 +43,11 @@ private registros: AngularFirestoreCollection<Requisicao>
             .collection<Departamento>("departamentos")
             .doc(requisicao.departamentoId)
             .valueChanges()
-            .subscribe(x => requisicao.departamento = x)
-        });
-        return requisicoes;
-      }),
-      map((requisicoes: Requisicao[]) => {
-        requisicoes.forEach(requisicao => {
+            .subscribe(x => requisicao.departamento = x);
+          if(requisicao.equipamentoId)
           this.fireStore
           .collection<Equipamento>("equipamentos")
-          .doc(requisicao.equipamentoId!)
+          .doc(requisicao.equipamentoId)
           .valueChanges()
           .subscribe(x => requisicao.equipamento = x)
         });

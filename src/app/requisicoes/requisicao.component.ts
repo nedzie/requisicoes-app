@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AuthenticationService } from '../auth/services/authentication.service';
 import { Departamento } from '../departamentos/models/departamento.model';
 import { DepartamentoService } from '../departamentos/services/departamento.service';
@@ -38,7 +38,7 @@ export class RequisicaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.requisicoes$ = this.requisicaoService.selecionarTodos();
+    // this.requisicoes$ = this.requisicaoService.selecionarTodos();
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
 
@@ -120,7 +120,30 @@ export class RequisicaoComponent implements OnInit {
         this.funcionarioService.selecionarFuncionarioLogado(dados?.email!)
           .subscribe(funcionario => {
             this.funcionarioLogado = funcionario;
+          this.obterMinhasRequisicoes();
           })
       })
+  }
+  obterMinhasRequisicoes() {
+    this.requisicoes$ = this.requisicaoService.selecionarTodos()
+      .pipe(
+        map(requisicoes => {
+          return requisicoes.filter(r => r.solicitante?.email === this.funcionarioLogado.email);
+      } )
+    )
+  }
+
+  obterRequisicoesDoMeuDepartamento() {
+    this.requisicoes$ = this.requisicaoService.selecionarTodos()
+      .pipe(
+        map(requisicoes => {
+          return requisicoes.filter(r => r.departamentoId === this.funcionarioLogado.departamentoId);
+      } )
+    )
+  }
+
+  // Será apagado
+  selecionarTodos() {
+    this.requisicoes$ = this.requisicaoService.selecionarTodos();
   }
 }
