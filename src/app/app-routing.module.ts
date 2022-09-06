@@ -23,6 +23,11 @@ const routes: Routes = [
     loadChildren: () => import("./funcionarios/funcionario.module")
       .then(x => x.FuncionarioModule),
     canActivate: [AuthGuard]
+  },
+  { path: "requisicoes",
+    loadChildren: () => import("./requisicoes/requisicao.module")
+      .then(x => x.RequisicaoModule),
+      canActivate: [AuthGuard]
   }
 ];
 

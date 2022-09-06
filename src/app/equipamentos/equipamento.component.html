@@ -27,7 +27,7 @@
           </thead>
           <tbody class="text-center">
             <tr *ngFor="let equipamento of (equipamento$ | async)">
-              <td>{{ equipamento.numeroSerie }}</td>
+              <td>{{ equipamento.numeroSerie | serial }}</td>
               <td>{{ equipamento.nome }}</td>
               <td>{{ equipamento.precoAquisicao | currency: 'BRL' }}</td>
               <td>{{ equipamento.dataFabricacao | date: 'dd/MM/yyyy'}}</td>
@@ -55,8 +55,9 @@
       <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
         <div class="form-group position-relative mb-3">
           <label class="form-label" for="numeroSerie">Nº de Série</label>
-          <input class="form-control bg-dark text-bg-dark" type="text" formControlName="numeroSerie"
-            placeholder="xxxx-xxxx" [ngClass]="(numeroSerie?.touched && numeroSerie?.invalid) ? 'is-invalid' : ''"
+          <input class="form-control bg-dark text-bg-dark" type="text" formControlName="numeroSerie" mask="AAAA-AAAA"
+            [dropSpecialCharacters]="true" placeholder="xxxx-xxxx"
+            [ngClass]="(numeroSerie?.touched && numeroSerie?.invalid) ? 'is-invalid' : ''"
             [attr.disabled]="this.id?.value ? '' : null">
           <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
             <span *ngIf="numeroSerie?.errors?.['required']">É necessário um nº de série.</span>

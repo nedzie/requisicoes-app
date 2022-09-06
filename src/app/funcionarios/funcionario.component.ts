@@ -85,19 +85,21 @@ export class FuncionarioComponent implements OnInit {
         ...funcionario,
         departamento
       }
-
-      this.form.get("funcionario")?.setValue(funcionarioCompleto); /* Aqui os valores são preenchidos nos campos do form, quando as informações batem com o FORMGROUP lá de cima*/
+      /* Aqui os valores são preenchidos nos campos do form, quando as informações batem com o FORMGROUP lá de cima*/
+      this.form.get("funcionario")?.setValue(funcionarioCompleto);
     }
-
     try {
       await this.modalService.open(modal).result;
 
       if(this.form.dirty && this.form.valid) {
         if(!funcionario) {
+          let usuarioAtual = this.authService.getUser();
+
           await this.authService.cadastrar(this.email?.value, this.senha?.value);
+
           await this.funcionarioService.inserir(this.form.get("funcionario")?.value);
-          await this.authService.logout();
-          await this.router.navigate(["/login"]);
+
+          await this.authService.updateUser(await usuarioAtual);
         }
         else
           await this.funcionarioService.editar(this.form.get("funcionario")?.value);

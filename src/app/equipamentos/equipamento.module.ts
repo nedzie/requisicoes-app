@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EquipamentoComponent } from './equipamento.component';
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
     NgbModule,
     ReactiveFormsModule,
     EquipamentoRoutingModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    SharedModule,
+    NgxMaskModule.forChild()
   ]
 })
 export class EquipamentoModule { }
