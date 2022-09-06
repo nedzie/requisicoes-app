@@ -34,8 +34,9 @@ export class AuthenticationService {
     return this.auth.updateCurrentUser(usuario);
   }
 
-  public getUid() {
-    return firebase.auth().currentUser?.uid.toString();
+  public getEmail() {
+    console.log(firebase.auth().currentUser?.email!)
+    return firebase.auth().currentUser?.email!;
   }
 
   public resetarSenha(email: string): Promise<void> {

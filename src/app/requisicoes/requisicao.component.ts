@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../auth/services/authentication.service';
@@ -9,6 +8,8 @@ import { Departamento } from '../departamentos/models/departamento.model';
 import { DepartamentoService } from '../departamentos/services/departamento.service';
 import { Equipamento } from '../equipamentos/models/equipamento.model';
 import { EquipamentoService } from '../equipamentos/services/equipamento.service';
+import { Funcionario } from '../funcionarios/models/funcionario.model';
+import { FuncionarioService } from '../funcionarios/services/funcionario.service';
 import { Requisicao } from './models/requisicao.model';
 import { RequisicaoService } from './services/requisicao.service';
 
@@ -20,12 +21,16 @@ export class RequisicaoComponent implements OnInit {
   public requisicoes$: Observable<Requisicao[]>;
   public departamentos$: Observable<Departamento[]>;
   public equipamentos$: Observable<Equipamento[]>;
+
+  private funcionarioLogado: Funcionario;
+
   public form: FormGroup;
 
   constructor(
     private requisicaoService: RequisicaoService,
     private equipamentoService: EquipamentoService,
     private departamentoService: DepartamentoService,
+    private funcionarioService: FuncionarioService,
     private authService: AuthenticationService,
     private fb: FormBuilder,
     private modalService: NgbModal,
@@ -48,6 +53,8 @@ export class RequisicaoComponent implements OnInit {
       solicitanteId: new FormControl(""),
       solicitante: new FormControl("")
     });
+
+    this.obterFuncionarioLogado();
   }
 
   get tituloModal(): string {
@@ -85,8 +92,10 @@ export class RequisicaoComponent implements OnInit {
 
       if(this.form.dirty && this.form.valid) {
         if(!requisicao) {
+
           this.form.get("dataCriacao")?.setValue(new Date(Date.now()).toLocaleString());
-          this.form.get("solicitanteId")?.setValue(this.authService.getUid());
+          this.form.get("solicitante")?.setValue(this.funcionarioLogado);
+          this.form.get("solicitanteId")?.setValue(this.funcionarioLogado.id);
           this.requisicaoService.inserir(this.form.value);
         }
         else
@@ -105,4 +114,13 @@ export class RequisicaoComponent implements OnInit {
     this.toastr.warning(`'${requisicao.id}' excluída`, "Exclusão de requisições");
   }
 
+  obterFuncionarioLogado() {
+    this.authService.usuarioLogado
+      .subscribe(dados => {
+        this.funcionarioService.selecionarFuncionarioLogado(dados?.email!)
+          .subscribe(funcionario => {
+            this.funcionarioLogado = funcionario;
+          })
+      })
+  }
 }
