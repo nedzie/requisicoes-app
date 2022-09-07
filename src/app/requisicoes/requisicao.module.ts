@@ -8,7 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
-    RequisicaoComponent
+    RequisicaoComponent,
   ],
   imports: [
     CommonModule,

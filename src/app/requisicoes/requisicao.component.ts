@@ -38,7 +38,6 @@ export class RequisicaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.requisicoes$ = this.requisicaoService.selecionarTodos();
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
 
@@ -124,6 +123,7 @@ export class RequisicaoComponent implements OnInit {
           })
       })
   }
+
   obterMinhasRequisicoes() {
     this.requisicoes$ = this.requisicaoService.selecionarTodos()
       .pipe(
