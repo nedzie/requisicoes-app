@@ -49,7 +49,14 @@ export class FuncionarioService {
     );
   }
 
-  public selecionarFuncionarioLogado(email: string) {
+  public selecionarFuncionarioLogado(email: string): Observable<Funcionario> {
+    // return this.selecionarTodos()
+    //   .pipe(
+    //     map(funcionarios => {
+    //       funcionarios.filter(x => x.email === email);
+    //       return funcionarios[0];
+    //     })
+    //   )
     return this.fireStore.collection<Funcionario>("funcionarios",
       ref => ref.where("email", "==", email)).valueChanges()
       .pipe(

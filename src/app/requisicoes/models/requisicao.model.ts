@@ -6,10 +6,13 @@ export class Requisicao {
   id: string;
   descricao: string;
   dataCriacao: string;
+
   equipamentoId?: string | null;
   equipamento?: Equipamento;
+
   departamentoId: string;
   departamento?: Departamento;
-  solicitanteId: string;
-  solicitante?: Funcionario;
+
+  funcionarioId?: string;
+  funcionario?: Funcionario;
 }

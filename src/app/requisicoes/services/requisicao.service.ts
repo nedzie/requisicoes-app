@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { map, Observable } from 'rxjs';
 import { Departamento } from 'src/app/departamentos/models/departamento.model';
 import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
+import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { Requisicao } from '../models/requisicao.model';
 
 @Injectable({
@@ -43,16 +44,52 @@ private registros: AngularFirestoreCollection<Requisicao>
             .collection<Departamento>("departamentos")
             .doc(requisicao.departamentoId)
             .valueChanges()
-            .subscribe(x => requisicao.departamento = x);
-          if(requisicao.equipamentoId)
-          this.fireStore
-          .collection<Equipamento>("equipamentos")
-          .doc(requisicao.equipamentoId)
-          .valueChanges()
-          .subscribe(x => requisicao.equipamento = x)
+            .subscribe(d => requisicao.departamento = d); //Aqui
+          this.preencherDepFuncionario(requisicao);
+          if(requisicao.equipamentoId) {
+            this.fireStore
+              .collection<Equipamento>("equipamentos")
+              .doc(requisicao.equipamentoId)
+              .valueChanges()
+              .subscribe(e => requisicao.equipamento = e);
+          }
         });
         return requisicoes;
       })
     );
+  }
+
+  private preencherDepFuncionario(requisicao: Requisicao) {
+    this.fireStore
+      .collection<Funcionario>("funcionarios")
+      .doc(requisicao.funcionarioId)
+      .valueChanges()
+      .pipe(
+        map(funcionario => {
+          this.fireStore
+            .collection<Departamento>("departamentos")
+            .doc(funcionario?.departamentoId)
+            .valueChanges()
+            .subscribe(d => requisicao.funcionario!.departamento = d)
+        })
+      ).subscribe();
+  }
+
+  public selecionarRequisicoesDoFuncionarioAtual(id: string): Observable<Requisicao[]> {
+    return this.selecionarTodos()
+      .pipe(
+        map(requisicoes => {
+          return requisicoes.filter(req => req.funcionarioId === id);
+        })
+      )
+  }
+
+  public selecionarRequisicoesDoDepartamentoAtual(id: string): Observable<Requisicao[]> {
+    return this.selecionarTodos()
+      .pipe(
+        map(requisicoes => {
+          return requisicoes.filter(req => req.departamentoId === id);
+        })
+      )
   }
 }
