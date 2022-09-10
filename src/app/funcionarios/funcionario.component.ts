@@ -26,7 +26,6 @@ export class FuncionarioComponent implements OnInit {
     private toastr: ToastrService,
     private modalService: NgbModal,
     private authService: AuthenticationService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {

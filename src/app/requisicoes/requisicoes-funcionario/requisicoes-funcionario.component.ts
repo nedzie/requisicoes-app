@@ -10,7 +10,9 @@ import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
 import { EquipamentoService } from 'src/app/equipamentos/services/equipamento.service';
 import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { FuncionarioService } from 'src/app/funcionarios/services/funcionario.service';
+import { Movimentacao } from '../models/movimentacao.model';
 import { Requisicao } from '../models/requisicao.model';
+import { StatusRequisicao } from '../models/status-requisicao';
 import { RequisicaoService } from '../services/requisicao.service';
 
 @Component({
@@ -44,7 +46,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       id: new FormControl(""),
-      descricao: new FormControl("", [Validators.required, Validators.minLength(25)]),
+      descricao: new FormControl("", [Validators.required, Validators.minLength(2)]),
       dataCriacao: new FormControl(""),
 
       departamentoId: new FormControl("", [Validators.required]),
@@ -54,7 +56,10 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
       funcionario: new FormControl(""),
 
       equipamentoId: new FormControl(""),
-      equipamento: new FormControl("")
+      equipamento: new FormControl(""),
+
+      status: new FormControl(""),
+      movimentacoes: new FormControl("")
     });
 
     this.obterFuncionarioLogado();
@@ -90,6 +95,14 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
 
   get funcionarioId(): AbstractControl | null {
     return this.form.get("funcionarioId");
+  }
+
+  get movimentacoes(): AbstractControl | null {
+    return this.form.get("movimentacoes");
+  }
+
+  get status() :AbstractControl | null {
+    return this.form.get("status");
   }
 
   public async gravar(modal: TemplateRef<any>, requisicao?: Requisicao) {
@@ -145,6 +158,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
         this.funcionarioService.selecionarFuncionarioLogado(dados?.email!)
           .subscribe(funcionario => {
             this.funcionarioLogado = funcionario;
+            console.log(this.funcionarioLogado);
             this.requisicoes$ =
               this.requisicaoService
                 .selecionarRequisicoesDoFuncionarioAtual(this.funcionarioLogado.id);
@@ -154,6 +168,9 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
 
   private consigurarValoresPadrao(): void {
     this.form.get("dataCriacao")?.setValue(new Date(Date.now()).toLocaleString());
+    const movimentacoes: Movimentacao[] = [];
+    this.form.get("movimentacoes")?.setValue(movimentacoes);
+    this.form.get("status")?.setValue(StatusRequisicao.Aberta);
     this.form.get("funcionarioId")?.setValue(this.funcionarioLogado.id);
   }
 }

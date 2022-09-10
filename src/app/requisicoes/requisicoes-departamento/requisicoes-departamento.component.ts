@@ -21,9 +21,10 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
   public requisicoes$: Observable<Requisicao[]>;
   public departamentos$: Observable<Departamento[]>;
   public equipamentos$: Observable<Equipamento[]>;
-  private processoAutenticado: Subscription;
+  private processoAutenticado$: Subscription;
 
-  public funcionarioLogado: Funcionario;
+  public departamentoAtualId: string;
+  public funcionarioLogadoId: string;
 
   public form: FormGroup;
 
@@ -40,6 +41,17 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void { // Na tela
+    this.processoAutenticado$ = this.authService.usuarioLogado.subscribe(usuario => {
+      const email: string = usuario?.email!;
+      this.funcionarioService.selecionarFuncionarioLogado(email)
+        .subscribe(funcionario => {
+          this.funcionarioLogadoId = funcionario.id
+          this.departamentoAtualId = funcionario.departamentoId
+          this.requisicoes$ = this.requisicaoService
+            .selecionarRequisicoesDoDepartamentoAtual(this.departamentoAtualId)
+      });
+    })
+
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
 
@@ -57,12 +69,10 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
       equipamentoId: new FormControl(""),
       equipamento: new FormControl("")
     });
-
-    this.obterFuncionarioLogado();
   }
 
   ngOnDestroy(): void {
-    this.processoAutenticado.unsubscribe();
+    this.processoAutenticado$.unsubscribe();
   }
 
   get tituloModal(): string {
@@ -91,18 +101,5 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
 
   get funcionarioId(): AbstractControl | null {
     return this.form.get("funcionarioId");
-  }
-
-  obterFuncionarioLogado() {
-    this.processoAutenticado = this.authService.usuarioLogado
-      .subscribe(dados => {
-        this.funcionarioService.selecionarFuncionarioLogado(dados?.email!)
-          .subscribe(funcionario => {
-            this.funcionarioLogado = funcionario;
-            this.requisicoes$ =
-              this.requisicaoService
-                .selecionarRequisicoesDoDepartamentoAtual(funcionario.departamentoId);
-          })
-      })
   }
 }
