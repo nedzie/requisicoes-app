@@ -8,7 +8,9 @@ export class Requisicao {
   id: string;
   descricao: string;
   dataCriacao: string;
+
   status: StatusRequisicao;
+  ultimaAtualizacao: string;
   movimentacoes: Movimentacao[];
 
   equipamentoId?: string | null;

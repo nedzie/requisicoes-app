@@ -42,40 +42,14 @@ private registros: AngularFirestoreCollection<Requisicao>
         requisicoes.forEach(requisicao => {
           this.fireStore.collection<Funcionario>("funcionarios").doc(requisicao.funcionarioId).valueChanges().subscribe(x => requisicao.funcionario = x!);
           this.fireStore.collection<Departamento>("departamentos").doc(requisicao.departamentoId).valueChanges().subscribe(x => requisicao.departamento = x!);
+          this.preencherDepFuncionario(requisicao);
           if (requisicao.equipamentoId)
-          this.fireStore.collection<Equipamento>("equipamentos").doc(requisicao.equipamentoId).valueChanges().subscribe(x => requisicao.equipamento = x);
+            this.fireStore.collection<Equipamento>("equipamentos").doc(requisicao.equipamentoId).valueChanges().subscribe(x => requisicao.equipamento = x);
         });
         return requisicoes;
       } )
     )
   }
-    // return this.registros.valueChanges()
-    // .pipe(
-    //   map((requisicoes: Requisicao[]) => {
-    //     requisicoes.forEach(requisicao => {
-    //       this.fireStore
-    //         .collection<Departamento>("departamentos")
-    //         .doc(requisicao.departamentoId)
-    //         .valueChanges()
-    //         .subscribe(d => requisicao.departamento = d);
-    //       this.fireStore
-    //         .collection<Funcionario>("funcionarios")
-    //         .doc(requisicao.funcionarioId)
-    //         .valueChanges()
-    //         .subscribe(f => requisicao.funcionario = f);
-    //       //this.preencherDepFuncionario(requisicao);
-    //       if(requisicao.equipamentoId) {
-    //         this.fireStore
-    //           .collection<Equipamento>("equipamentos")
-    //           .doc(requisicao.equipamentoId)
-    //           .valueChanges()
-    //           .subscribe(e => requisicao.equipamento = e);
-    //       }
-    //     });
-    //     return requisicoes;
-    //   })
-    // );
-
 
   private preencherDepFuncionario(requisicao: Requisicao) {
     this.fireStore
@@ -106,7 +80,7 @@ private registros: AngularFirestoreCollection<Requisicao>
     return this.selecionarTodos()
       .pipe(
         map(requisicoes => {
-          return requisicoes.filter(req => req.departamentoId == id);
+          return requisicoes.filter(req => req.departamentoId === id);
         })
       )
   }

@@ -10,7 +10,9 @@ import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
 import { EquipamentoService } from 'src/app/equipamentos/services/equipamento.service';
 import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { FuncionarioService } from 'src/app/funcionarios/services/funcionario.service';
+import { Movimentacao } from '../models/movimentacao.model';
 import { Requisicao } from '../models/requisicao.model';
+import { StatusRequisicao } from '../models/status-requisicao';
 import { RequisicaoService } from '../services/requisicao.service';
 
 @Component({
@@ -24,7 +26,16 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
   private processoAutenticado$: Subscription;
 
   public departamentoAtualId: string;
-  public funcionarioLogadoId: string;
+  public funcionarioLogado: Funcionario;
+  public requisicaoSelecionada: Requisicao;
+
+  public listaStatus: string[] =
+    [
+      StatusRequisicao.Aberta,
+      StatusRequisicao.Processando,
+      StatusRequisicao.NaoAutorizada,
+      StatusRequisicao.Finalizada
+    ];
 
   public form: FormGroup;
 
@@ -36,17 +47,16 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
     private authService: AuthenticationService,
     private fb: FormBuilder,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) { }
-
 
   ngOnInit(): void { // Na tela
     this.processoAutenticado$ = this.authService.usuarioLogado.subscribe(usuario => {
       const email: string = usuario?.email!;
       this.funcionarioService.selecionarFuncionarioLogado(email)
         .subscribe(funcionario => {
-          this.funcionarioLogadoId = funcionario.id
           this.departamentoAtualId = funcionario.departamentoId
+          this.funcionarioLogado = funcionario
           this.requisicoes$ = this.requisicaoService
             .selecionarRequisicoesDoDepartamentoAtual(this.departamentoAtualId)
       });
@@ -56,18 +66,10 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
 
     this.form = this.fb.group({
-      id: new FormControl(""),
-      descricao: new FormControl("", [Validators.required, Validators.minLength(25)]),
-      dataCriacao: new FormControl(""),
-
-      departamentoId: new FormControl("", [Validators.required]),
-      departamento: new FormControl(""),
-
-      funcionarioId: new FormControl(""),
+      status: new FormControl("", [Validators.required]),
+      descricao: new FormControl("", [Validators.required, Validators.minLength(6)]),
       funcionario: new FormControl(""),
-
-      equipamentoId: new FormControl(""),
-      equipamento: new FormControl("")
+      dataMovimentacao: new FormControl("")
     });
   }
 
@@ -75,31 +77,43 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
     this.processoAutenticado$.unsubscribe();
   }
 
-  get tituloModal(): string {
-    return this.id?.value ? "Edição" : "Cadastro";
+  get status(): AbstractControl | null {
+    return this.form.get("status");
   }
 
-  get id(): AbstractControl | null {
-    return this.form.get("id");
+  public async gravar(modal: TemplateRef<any>, requisicao: Requisicao) {
+    this.form.reset();
+
+    this.requisicaoSelecionada = requisicao;
+    this.requisicaoSelecionada.movimentacoes = requisicao.movimentacoes ? requisicao.movimentacoes : [];
+    this.configurarValoresPadrao();
+
+    try {
+      await this.modalService.open(modal).result;
+
+      if(this.form.dirty && this.form.valid) {
+        this.atualizarRequisicao(this.form.value);
+        await this.requisicaoService.editar(this.requisicaoSelecionada);
+      }
+
+    } catch (error) {
+      if(error != "fechar" && error != "1" && error != "0")
+        this.toastr.error("Houve um erro na solicitação");
+    }
   }
 
-  get descricao(): AbstractControl | null {
-    return this.form.get("descricao");
+  private configurarValoresPadrao() {
+    this.form.patchValue({
+      funcionario: this.funcionarioLogado,
+      status: this.requisicaoSelecionada.status,
+      dataMovimentacao: new Date(Date.now()).toLocaleString()
+    })
   }
 
-  get dataCriacao(): AbstractControl | null {
-    return this.form.get("dataCriacao");
+  private atualizarRequisicao(movimentacao: Movimentacao) {
+    this.requisicaoSelecionada.movimentacoes.push(movimentacao);
+    this.requisicaoSelecionada.status = this.status?.value;
+    this.requisicaoSelecionada.ultimaAtualizacao = new Date(Date.now()).toLocaleString();
   }
 
-  get departamentoId(): AbstractControl | null {
-    return this.form.get("departamentoId");
-  }
-
-  get equipamentoId(): AbstractControl | null {
-    return this.form.get("equipamentoId");
-  }
-
-  get funcionarioId(): AbstractControl | null {
-    return this.form.get("funcionarioId");
-  }
 }

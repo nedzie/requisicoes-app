@@ -59,6 +59,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
       equipamento: new FormControl(""),
 
       status: new FormControl(""),
+      ultimaAtualizacao: new FormControl(""),
       movimentacoes: new FormControl("")
     });
 
@@ -126,10 +127,11 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
     try {
       await this.modalService.open(modal).result;
 
-      if(this.form.dirty && this.form.valid) {
+      if(this.form.valid) {
         if(!requisicao) {
-          this.consigurarValoresPadrao();
-          await this.requisicaoService.inserir(this.form.value);
+          if(this.form.dirty)
+            this.configurarValoresPadrao();
+            await this.requisicaoService.inserir(this.form.value);
         }
         else
           await this.requisicaoService.editar(this.form.value);
@@ -158,7 +160,6 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
         this.funcionarioService.selecionarFuncionarioLogado(dados?.email!)
           .subscribe(funcionario => {
             this.funcionarioLogado = funcionario;
-            console.log(this.funcionarioLogado);
             this.requisicoes$ =
               this.requisicaoService
                 .selecionarRequisicoesDoFuncionarioAtual(this.funcionarioLogado.id);
@@ -166,10 +167,9 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
       })
   }
 
-  private consigurarValoresPadrao(): void {
+  private configurarValoresPadrao(): void {
     this.form.get("dataCriacao")?.setValue(new Date(Date.now()).toLocaleString());
-    const movimentacoes: Movimentacao[] = [];
-    this.form.get("movimentacoes")?.setValue(movimentacoes);
+    this.form.get("ultimaAtualizacao")?.setValue(new Date(Date.now()).toLocaleString());
     this.form.get("status")?.setValue(StatusRequisicao.Aberta);
     this.form.get("funcionarioId")?.setValue(this.funcionarioLogado.id);
   }

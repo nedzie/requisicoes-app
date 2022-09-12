@@ -4,7 +4,8 @@ import { StatusRequisicao } from "./status-requisicao";
 export class Movimentacao {
   dataMovimentacao: string;
   descricao: string;
-  funcionarioId: string;
-  funcionario?: Funcionario;
+
   status: StatusRequisicao;
+
+  funcionario: Funcionario;
 }

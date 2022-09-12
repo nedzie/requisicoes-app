@@ -50,18 +50,19 @@ export class FuncionarioService {
   }
 
   public selecionarFuncionarioLogado(email: string): Observable<Funcionario> {
-    // return this.selecionarTodos()
-    //   .pipe(
-    //     map(funcionarios => {
-    //       funcionarios.filter(x => x.email === email);
-    //       return funcionarios[0];
-    //     })
-    //   )
     return this.fireStore.collection<Funcionario>("funcionarios",
       ref => ref.where("email", "==", email)).valueChanges()
       .pipe(
         take(1),
-        map(funcionarios => funcionarios[0])
+        map(funcionarios => funcionarios[0]),
+        map(funcionario => {
+          this.fireStore
+            .collection<Departamento>("departamentos")
+            .doc(funcionario.departamentoId)
+            .valueChanges()
+            .subscribe(x => funcionario.departamento = x)
+            return funcionario;
+        })
       );
   }
 }
