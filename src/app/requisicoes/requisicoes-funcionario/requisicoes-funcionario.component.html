@@ -27,11 +27,13 @@
           </thead>
           <tbody class="text-center">
             <tr *ngFor="let requisicao of (requisicoes$ | async)">
-              <td>{{ requisicao.dataCriacao}}</td>
+              <td>{{ requisicao.dataCriacao }}</td>
               <td>{{ requisicao.departamento?.nome }}</td>
               <td>{{ requisicao.descricao }}</td>
               <td>{{ requisicao.equipamento?.nome ? requisicao.equipamento?.nome : "—" }}</td>
               <td class="d-grid d-md-block">
+                <button class="btn btn-outline-primary me-0 me-md-1 mb-1 mb-md-auto" type="button"
+                  [routerLink]="['/requisicoes', requisicao.id]"><i class="pi pi-tags"></i></button>
                 <button class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto" type="button"><i class="pi pi-pencil"
                     (click)="gravar(modal, requisicao)"></i></button>
                 <button class="btn btn-outline-danger" type="button"><i class="pi pi-trash"

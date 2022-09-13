@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { Departamento } from 'src/app/departamentos/models/departamento.model';
 import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
 import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
@@ -81,6 +81,16 @@ private registros: AngularFirestoreCollection<Requisicao>
       .pipe(
         map(requisicoes => {
           return requisicoes.filter(req => req.departamentoId === id);
+        })
+      )
+  }
+
+  public selecionarPorId(id: string): Observable<Requisicao> {
+    return this.selecionarTodos()
+      .pipe(
+        take(1), // Ainda retorna um array[]
+        map(requisicoes => {
+          return requisicoes.filter(req => req.id === id)[0] // Assim retorna só 1 objeto
         })
       )
   }

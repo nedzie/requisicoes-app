@@ -33,7 +33,8 @@
               <td class="d-grid d-md-block">
                 <button class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto" type="button"
                   (click)="gravar(modal, requisicao)"><i class="pi pi-check-square"></i></button>
-                <button class="btn btn-outline-primary" type="button"><i class="pi pi-tags"></i></button>
+                <button class="btn btn-outline-primary" type="button" [routerLink]="['/requisicoes', requisicao.id]"><i
+                    class="pi pi-tags"></i></button> <!-- [routerLink] e ,requisicao.id para enviar dados pela rota -->
               </td>
             </tr>
           </tbody>
