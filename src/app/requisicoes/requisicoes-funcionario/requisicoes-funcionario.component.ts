@@ -10,7 +10,6 @@ import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
 import { EquipamentoService } from 'src/app/equipamentos/services/equipamento.service';
 import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { FuncionarioService } from 'src/app/funcionarios/services/funcionario.service';
-import { Movimentacao } from '../models/movimentacao.model';
 import { Requisicao } from '../models/requisicao.model';
 import { StatusRequisicao } from '../models/status-requisicao';
 import { RequisicaoService } from '../services/requisicao.service';
@@ -25,7 +24,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   public equipamentos$: Observable<Equipamento[]>;
   private processoAutenticado: Subscription;
 
-  private funcionarioLogado: Funcionario;
+  public funcionarioLogado: Funcionario;
 
   public form: FormGroup;
 
@@ -43,6 +42,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   ngOnInit(): void { // Na tela
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
+    this.requisicoes$ = this.requisicaoService.selecionarTodos();
 
     this.form = this.fb.group({
       id: new FormControl(""),
@@ -158,12 +158,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
     this.processoAutenticado = this.authService.usuarioLogado
       .subscribe(dados => {
         this.funcionarioService.selecionarFuncionarioLogado(dados?.email!)
-          .subscribe(funcionario => {
-            this.funcionarioLogado = funcionario;
-            this.requisicoes$ =
-              this.requisicaoService
-                .selecionarRequisicoesDoFuncionarioAtual(this.funcionarioLogado.id);
-          })
+          .subscribe(funcionario => this.funcionarioLogado = funcionario)
       })
   }
 

@@ -57,11 +57,10 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
         .subscribe(funcionario => {
           this.departamentoAtualId = funcionario.departamentoId
           this.funcionarioLogado = funcionario
-          this.requisicoes$ = this.requisicaoService
-            .selecionarRequisicoesDoDepartamentoAtual(this.departamentoAtualId)
       });
     })
 
+    this.requisicoes$ = this.requisicaoService.selecionarTodos();
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
 
