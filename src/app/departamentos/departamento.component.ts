@@ -56,9 +56,11 @@ export class DepartamentoComponent implements OnInit {
     try {
       await this.modalService.open(modal).result;
 
-      if(this.form.dirty && this.form.valid) {
-        if(!departamento)
-          await this.departamentoService.inserir(this.form.value);
+      if(this.form.valid) {
+        if(!departamento) {
+          if(this.form.dirty)
+            await this.departamentoService.inserir(this.form.value);
+        }
         else
           await this.departamentoService.editar(this.form.value);
 

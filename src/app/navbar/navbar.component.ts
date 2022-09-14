@@ -6,13 +6,12 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
   public usuarioLogado: Observable<firebase.User | null>;
   public estaColapsada: boolean = false;
-  public x: string;
+  public emailLogado: string;
 
   constructor(
     private authService: AuthenticationService,
@@ -22,7 +21,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioLogado = this.authService.usuarioLogado;
 
-    this.authService.usuarioLogado.subscribe(usuario => this.x = usuario?.email!);
+    this.authService.usuarioLogado.subscribe(usuario => this.emailLogado = usuario?.email!);
   }
 
   public sair() {

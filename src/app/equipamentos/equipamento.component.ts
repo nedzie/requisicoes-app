@@ -9,8 +9,7 @@ import { ValidarData } from '../shared/date-validator/date.validator';
 
 @Component({
   selector: 'app-equipamento',
-  templateUrl: './equipamento.component.html',
-  styleUrls: ['./equipamento.component.css']
+  templateUrl: './equipamento.component.html'
 })
 export class EquipamentoComponent implements OnInit {
   public equipamento$: Observable<Equipamento[]>;
